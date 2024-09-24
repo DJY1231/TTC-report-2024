@@ -2,7 +2,7 @@
 
 ## Overview
 
-This repo provides students with a foundation for their own projects associated with *Telling Stories with Data*. You do not need every aspect for every paper and you should delete aspects that you do not need.
+This paper analyzes TTC delay data to understand patterns and causes of de- lays. It finds buses experience the most delays, especially on certain routes, while subways have frequent undocumented delays. Mechanical issues, operations, and diversions are most common delay causes. The analysis indicates the need to reduce bus delays through more vehicles or tactics like bus bridging on certain routes.
 
 
 ## File Structure
