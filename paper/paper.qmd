@@ -1,15 +1,14 @@
 ---
-title: "My title"
+title: "Analysis of transit delays in the Toronto Transit Commission: 2024"
 author: 
   - Dong Jun Yoon
-thanks: "Code and data are available at: LINK."
+thanks: "Code and data are available at: https://github.com/DJY1231/TTC-report-2024.git"
 date: today
 date-format: long
-abstract: "First sentence. Second sentence. Third sentence. Fourth sentence."
+abstract: "This paper analyzes TTC delay data to understand patterns and causes of delays. It finds buses experience the most delays, especially on certain routes, while subways have frequent undocumented delays. Mechanical issues, operations, and diversions are most common delay causes. The analysis indicates the need to reduce bus delays through more vehicles or tactics like bus bridging on certain routes."
 format: pdf
 number-sections: true
 bibliography: references.bib
----
 
 ```{r}
 #| include: false
