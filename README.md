@@ -2,7 +2,7 @@
 
 ## Overview
 
-This paper analyzes TTC delay data to understand patterns and causes of de- lays. It finds buses experience the most delays, especially on certain routes, while subways have frequent undocumented delays. Mechanical issues, operations, and diversions are most common delay causes. The analysis indicates the need to reduce bus delays through more vehicles or tactics like bus bridging on certain routes.
+This paper analyzes TTC delay patterns and the cause of its delay. It finds buses experience the most delays, especially on certain routes, while subways have frequent undocumented delays. Mechanical issues, operations, and diversions are most common delay causes. The analysis indicates the need to reduce bus delays through more vehicles or tactics like bus bridging on certain routes.
 
 
 ## File Structure
@@ -25,6 +25,4 @@ Aspects of the code were written with the help of the autocomplete tool, Chat-GP
 
 - [ ] Change the rproj file name so that it's not starter_folder.Rproj
 - [ ] Change the README title so that it's not Starter folder
-- [ ] Remove files that you're not using
 - [ ] Update comments in R scripts
-- [ ] Remove this checklist
