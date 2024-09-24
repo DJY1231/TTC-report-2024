@@ -24,10 +24,10 @@ library(palmerpenguins)
 
 
 # Introduction
+Having operated for over 100 years, the Toronto Transit Commission (TTC) has become one of the most visible and representative public transportation organizations in North America. It is well-known as the primary mode of public transportation in Toronto's daily life. Within the TTC, the bus network typically experiences higher daily ridership compared to streetcars, while subways accommodate the largest volume of passengers due to their central role in covering longer routes. Frequent riders often notice delays that arise on a daily basis. As delays become worse and services becoming increasingly inconsistent, it is important to examine the potential causes, allowing the TTC to identify and implement effective solutions.
 
-You can and should cross-reference sections and sub-sections. We use @citeR and @rohan.
+This paper will identify the correlations of public transit delays across different types of transportation. The data utilized for analysis, including both records and census data, measurements, is in {#sec-data}. In {#sec-results}, I will talk about the predicted results derived from the data, this includes the result of the differences in delays between buses, streetcars, and subways. Lastly, {#sec-Discussion} contains more detailed results in a broader context and addresses weaknesses of this paper as well as the future explorations. This paper uses the programming language `R`[@citeR] . The analysis, the model and the visualizations use the following packages: `dplyr`[@dplyr],  `tidyverse`[@tidyverse], `ggplot2`[@ggplot], `knitr` [@knitr],  `here` [@here] , and `kableExtra` [@kableExtra],`modelsummary`[@model_summary], and `rstanarm`[@rstanarm].
 
-The remainder of this paper is structured as follows. @sec-data....
 
 
 
