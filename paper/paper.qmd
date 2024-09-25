@@ -25,20 +25,14 @@ Having operated for over 100 years, the Toronto Transit Commission (TTC) has bec
 This paper will identify the correlations of public transit delays across different types of transportation. The data utilized for analysis, including both records and census data, measurements, is in {#sec-data}. In {#sec-results}, I will talk about the predicted results derived from the data, this includes the result of the differences in delays between buses, streetcars, and subways. Lastly, {#sec-Discussion} contains more detailed results in a broader context and addresses weaknesses of this paper as well as the future explorations. This paper uses the programming language `R`[@citeR] . The analysis, the model and the visualizations use the following packages: `dplyr`[@dplyr],  `tidyverse`[@tidyverse], `ggplot2`[@ggplot], `knitr` [@knitr],  `here` [@here] , and `kableExtra` [@kableExtra],`modelsummary`[@model_summary], and `rstanarm`[@rstanarm].
 
 
-
-
 # Data {#sec-data}
 ## Data Source
-## Data Measurement
+The data are gathered from Open Data Toronto's report on TTC delays. The datasets, published by the TTC, include: the first dataset, which presents delay statistics for subways in 2024; the second dataset, which details delay statistics for buses in 2024; and the third dataset, which provides delay statistics for streetcars in 2024.
 
-Talk more about it.
+# Data Analysis
+The dataset provides information that offers insights of public transit delays across different types of transportation. The y-axis represents  The x-axis corresponds ,representing the total income for each year.
 
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-
-Talk way more about it. 
-
-
+Additionally, data cleaning and analysis were conducted using the base statistical programming language R (R Core Team 2023), tidyverse (Wickham et al. 2019), ggplot2 (Wickham 2016), dplyr (Wickham et al. 2023), readr (Wickham, Hester, and Bryan 2023), tibble (Müller and Wickham 2023), janitor (Firke 2023), and knitr (Xie 2023) package were used.
 
 # Model
 
