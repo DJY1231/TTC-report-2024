@@ -22,6 +22,4 @@ The repo is structured as:
 Aspects of the code were written with the help of the autocomplete tool, Chat-GPT4o. The entire chat history is available at other/llms/usage.txt.
 
 ## Some checks
-
-- [ ] Change the rproj file name so that it's not starter_folder.Rproj
 - [ ] Update comments in R scripts
