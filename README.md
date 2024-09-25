@@ -24,5 +24,4 @@ Aspects of the code were written with the help of the autocomplete tool, Chat-GP
 ## Some checks
 
 - [ ] Change the rproj file name so that it's not starter_folder.Rproj
-- [ ] Change the README title so that it's not Starter folder
 - [ ] Update comments in R scripts
