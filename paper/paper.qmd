@@ -1,5 +1,6 @@
 ---
 title: "Analysis of transit delays in the Toronto Transit Commission: 2024"
+subtitle: "Insights from Jan 1 to Aug 31"
 author: "Dong Jun Yoon"
 thanks: "Code and data are available at: https://github.com/DJY1231/TTC-report-2024.git"
 date: today
