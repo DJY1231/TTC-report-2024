@@ -18,12 +18,10 @@ bibliography: references.bib
 library(tidyverse)
 library(palmerpenguins)
 ```
-
-
 # Introduction
 Having operated for over 100 years, the Toronto Transit Commission (TTC) has become one of the most visible and representative public transportation organizations in North America. It is well-known as the primary mode of public transportation in Toronto's daily life. Within the TTC, the bus network typically experiences higher daily ridership compared to streetcars, while subways accommodate the largest volume of passengers due to their central role in covering longer routes. Frequent riders often notice delays that arise on a daily basis. As delays become worse and services becoming increasingly inconsistent, it is important to examine the potential causes, allowing the TTC to identify and implement effective solutions.
 
-This paper will identify the correlations of public transit delays across different types of transportation. The data utilized for analysis, including both records and census data, measurements, is in {#sec-data}. In {#sec-results}, I will talk about the predicted results derived from the data, this includes the result of the differences in delays between buses, streetcars, and subways. Lastly, {#sec-Discussion} contains more detailed results in a broader context and addresses weaknesses of this paper as well as the future explorations. This paper uses the programming language `R`[@citeR] . The analysis, the model and the visualizations use the following packages: `dplyr`[@dplyr],  `tidyverse`[@tidyverse], `ggplot2`[@ggplot], `knitr` [@knitr],  `here` [@here] , and `kableExtra` [@kableExtra],`modelsummary`[@model_summary], and `rstanarm`[@rstanarm].
+This paper will identify the correlations of public transit delays across different types of transportation. The data utilized for analysis, including both records and census data, measurements, is in {#sec-data}. In {#sec-results}, I will talk about the predicted results derived from the data, this includes the result of the differences in delays between buses, streetcars, and subways. Lastly, {#sec-Discussion} contains more detailed results in a broader context and addresses weaknesses of this paper as well as the future explorations. 
 
 # Data {#sec-data}
 ## Data Source
@@ -97,7 +95,7 @@ Table 1, Table 2, Table 3 include:
 
 The total bus delay dataset contains 40,447 entries, while the subway delay dataset contains 17,517 entries, and streetcar delay dataset contains 9,932 entries. We can indicate that delays in the bus has occurred approximately 2.35 times more than the subway delay and 4.07 times more than the streetcar delay. 
 
-# Data Visualization
+# Data Visualization {#sec-results}
 ```{r}
 # Load the required libraries
 library(ggplot2)
@@ -267,156 +265,29 @@ Figure 4: Total delay time and average delay time for each type of vehicles
 
 In Figure 4, we observe the trend of total delay time and average delay time for each type of transportation. A closer look at the chart reveals that buses tend to have the highest total delay time and average delay time among all vehicles, with an total delay time of 40,000 minutes and average delay time of approximately 23 minutes which is about 8.8 times longer than the average subway delay time. Eventually, the streetcar has the least total delay time among all the vehicles; however, it has a longer average delay time than the subway.
 
+# Discussion {#sec-Discussion}
+This paper investigates the correlation of transit delays across different modes of public transportation operated by the Toronto Transit Commission (TTC), namely buses, streetcars, and subways. By analyzing datasets from January 1 to August 31, 2024, the paper provides insights into the causes and frequency of delays, for example it illustrates uncover patterns in transit delays, comparing delay causes, trends over time, and variations across different vehicle types. This is supported by visualizations showing in the figures above.
 
-# Discussion
+One key insight from the paper is that buses tend to experience delays more frequently than subways or streetcars, occurring approximately 2.35 times more often than subway delays and 4.07 times more than streetcar delays. This is a significant finding, as it suggests that the bus system is less reliable compared to other modes of transportation, likely due to factors such as traffic conditions, mechanical issues, and operational difficulties.Another observation is the difference in the reasons for delays among the different transportation types. For buses and streetcars, mechanical and operational issues are the leading causes of delays, while for subways, the main causes are patron-related incidents and mechanical failures. This differentiation highlights how the nature of the transportation system influences the kinds of challenges they face, emphasizing the need for tailored solutions to address these issues.
 
-Relate your analysis to the themes mentioned in Bouie (2022), discussing the importance of remembering and analyzing historical events through data.
+A possible weakness is its reliance on limited data from a single year (2024), which may not capture long-term trends or variations in delay patterns over time. Additionally, the report only includes data up to August 31, which does not represent a full year. Moreover, while the analysis uses statistical and visualization tools effectively, it does not deeply explore underlying causes beyond mechanical or operational issues. Another potential limitation is the lack of consideration for external factors like weather conditions, traffic accidents, or city-wide events that might influence transit delays. Future research could build upon this analysis by expanding the dataset to include multiple years or integrating external factors, such as traffic patterns, weather conditions, or special events, to provide a more comprehensive understanding of the causes of delays. Additionally, more detailed exploration into specific operational or technical issues causing delays for each transportation mode would help the TTC implement targeted solutions.
 
-# Model
-
-The goal of our modelling strategy is twofold. Firstly,...
-
-Here we briefly describe the Bayesian analysis model used to investigate... Background details and diagnostics are included in [Appendix -@sec-model-details].
-
-## Model set-up
-
-Define $y_i$ as the number of seconds that the plane remained aloft. Then $\beta_i$ is the wing width and $\gamma_i$ is the wing length, both measured in millimeters.  
-
-\begin{align} 
-y_i|\mu_i, \sigma &\sim \mbox{Normal}(\mu_i, \sigma) \\
-\mu_i &= \alpha + \beta_i + \gamma_i\\
-\alpha &\sim \mbox{Normal}(0, 2.5) \\
-\beta &\sim \mbox{Normal}(0, 2.5) \\
-\gamma &\sim \mbox{Normal}(0, 2.5) \\
-\sigma &\sim \mbox{Exponential}(1)
-\end{align}
-
-We run the model in R [@citeR] using the `rstanarm` package of @rstanarm. We use the default priors from `rstanarm`.
-
-
-### Model justification
-
-We expect a positive relationship between the size of the wings and time spent aloft. In particular...
-
-We can use maths by including latex between dollar signs, for instance $\theta$.
-
-
-# Results
-
-Our results are summarized in @tbl-modelresults.
-
-```{r}
-#| echo: false
-#| eval: true
-#| warning: false
-#| message: false
-
-library(rstanarm)
-
-first_model <-
-  readRDS(file = here::here("models/first_model.rds"))
-```
-
-```{r}
-#| echo: false
-#| eval: true
-#| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
-#| warning: false
-
-modelsummary::modelsummary(
-  list(
-    "First model" = first_model
-  ),
-  statistic = "mad",
-  fmt = 2
-)
-```
-
-
-
-
-# Discussion
-
-## First discussion point {#sec-first-point}
-
-If my paper were 10 pages, then should be be at least 2.5 pages. The discussion is a chance to show off what you know and what you learnt from all this. 
-
-## Second discussion point
-
-## Third discussion point
-
-## Weaknesses and next steps
-
-Weaknesses and next steps should also be included.
-
-\newpage
-
-\appendix
-
-# Appendix {-}
-
-
-# Additional data details
-
-# Model details {#sec-model-details}
-
-## Posterior predictive check
-
-In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. This shows...
-
-In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. This shows... 
-
-```{r}
-#| eval: true
-#| echo: false
-#| message: false
-#| warning: false
-#| label: fig-ppcheckandposteriorvsprior
-#| layout-ncol: 2
-#| fig-cap: "Examining how the model fits, and is affected by, the data"
-#| fig-subcap: ["Posterior prediction check", "Comparing the posterior with the prior"]
-
-pp_check(first_model) +
-  theme_classic() +
-  theme(legend.position = "bottom")
-
-posterior_vs_prior(first_model) +
-  theme_minimal() +
-  scale_color_brewer(palette = "Set1") +
-  theme(legend.position = "bottom") +
-  coord_flip()
-```
-
-## Diagnostics
-
-@fig-stanareyouokay-1 is a trace plot. It shows... This suggests...
-
-@fig-stanareyouokay-2 is a Rhat plot. It shows... This suggests...
-
-```{r}
-#| echo: false
-#| eval: true
-#| message: false
-#| warning: false
-#| label: fig-stanareyouokay
-#| fig-cap: "Checking the convergence of the MCMC algorithm"
-#| fig-subcap: ["Trace plot", "Rhat plot"]
-#| layout-ncol: 2
-
-plot(first_model, "trace")
-
-plot(first_model, "rhat")
-```
-
-
-
-\newpage
-
+# Conclusion
+In conclusion, this paper highlights key insights into transit delays across the TTC’s buses, streetcars, and subways based on data from January to August 2024. The analysis reveals that buses experience delays far more frequently than subways and streetcars, largely due to mechanical and operational issues, while subway delays are often caused by passenger-related incidents. Recognizing these patterns could help the TTC address specific repair needs and implement methods to reduce failures, ultimately increasing customer satisfaction and improving transportation for residents in the Toronto area.
 
 # References
 R Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna,
 Austria: R Foundation for Statistical Computing. https://www.R-project.org/.
 
+Xie, Yihui. 2023. Knitr: A General-Purpose Package for Dynamic Report Generation in r.
+https://yihui.org/knitr/.
+
+Wickham, Hadley, Jim Hester, and Jennifer Bryan. 2024. Readr: Read Rectangular Text Data.
+27. https://readr.tidyverse.org.
+
+Wickham, Hadley. 2016. Ggplot2: Elegant Graphics for Data Analysis. Springer-Verlag New
+York. https://ggplot2.tidyverse.org.
+
+Wickham, Hadley, Romain François, Lionel Henry, Kirill Müller, and Davis Vaughan. 2023. Dplyr: A Grammar of Data Manipulation. https://dplyr.tidyverse.org.
 
 
