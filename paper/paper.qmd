@@ -45,7 +45,7 @@ library(knitr)
 data <- read.csv("ttc_bus_delay_data_2024.csv")
 
 subset_data <- data %>%
-  select(Date, Time, Day, Incident, Min.Delay, Min.Gap) %>% 
+  select(Date, Time, Day, Incident, Min_Delay, Min_Gap) %>% 
   head(10)
 
 kable(subset_data, format = "pipe", align = 'l') %>%
@@ -62,7 +62,7 @@ library(knitr)
 data <- read.csv("ttc_streetcar_delay_data_2024.csv")
 
 subset_data <- data %>%
-  select(Date, Time, Day, Incident, Min.Delay, Min.Gap) %>% 
+  select(Date, Time, Day, Incident, Min_Delay, Min_Gap) %>% 
   head(10)
 
 kable(subset_data, format = "pipe", align = 'l') %>%
@@ -79,7 +79,7 @@ library(knitr)
 data <- read.csv("ttc_subway_delay_data_2024.csv")
 
 subset_data <- data %>%
-  select(Date, Time, Day, Code, Min.Delay, Min.Gap) %>% 
+  select(Date, Time, Day, Code, Min_Delay, Min_Gap) %>% 
   head(10)
 
 kable(subset_data, format = "pipe", align = 'l') %>%
@@ -93,7 +93,7 @@ Table 1, Table 2, Table 3 include:
 2. Time: The dataset contains information on the time the delay occurred.
 3. Day: The dataset indicates the day of the week when the delay occurred.
 4. Incident: The dataset displays the reason for the delay, such as a general delay, emergency services, or security issues. Incident is displayed in code for Table 3.
-5. Min.Delay and Min.Gap: The dataset likely represents 'Min Delay' and 'Min Gap,' both measured in minutes. 'Min Delay' refers to the delay in the schedule for the next bus, while 'Min Gap' indicates the scheduled time, between the bus ahead and the following bus.
+5. Min_Delay and Min_Gap: The dataset likely represents 'Min Delay' and 'Min Gap,' both measured in minutes. 'Min Delay' refers to the delay in the schedule for the next bus, while 'Min Gap' indicates the scheduled time, between the bus ahead and the following bus.
 
 The total bus delay dataset contains 40,447 entries, while the subway delay dataset contains 17,517 entries, and streetcar delay dataset contains 9,932 entries. We can indicate that delays in the bus has occurred approximately 2.35 times more than the subway delay and 4.07 times more than the streetcar delay. 
 
@@ -217,11 +217,55 @@ ggplot(combined_data, aes(x = Day, y = Count, color = vehicle, group = vehicle))
   theme_minimal() +
   scale_x_discrete(limits = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
 ```
-Figure 3:The trend of delays based on the day of the week
+Figure 3: The trend of delays based on the day of the week
 
 Figure 3 shows the trend of delays based on the day of the week. We can observe which day experiences the most delays and which day experiences the least. It also provides an overview of the delay trend throughout the week.
 
-This information offers valuable insight for the TTC to prepare alternative solutions for delays. For instance, they could deploy more buses or trains on days with higher delays compared to days with fewer delays.
+This information provides valuable insights for the TTC to prepare alternative solutions for delays. For instance, they could deploy more buses or trains on days with higher delays compared to those with fewer delays. In this case, the TTC could operate more buses on Tuesdays, as an upward trend in delays is observed from Monday to Tuesday. Conversely, the TTC could reduce the number of buses on weekends, as there is a downward trend in delays during that time.
+
+```{r}
+# Load necessary libraries
+library(ggplot2)
+library(dplyr)
+
+# Load datasets (replace with actual file paths)
+bus_data <- read.csv('ttc_bus_delay_data_2024.csv')
+streetcar_data <- read.csv('ttc_streetcar_delay_data_2024.csv')
+subway_data <- read.csv('ttc_subway_delay_data_2024.csv')
+
+# Summarize total number of delays and average delay time for each vehicle
+bus_summary <- bus_data %>%
+  summarise(Total_Delays = n(), Avg_Delay_Time = mean(`Min_Delay`, na.rm = TRUE))
+
+streetcar_summary <- streetcar_data %>%
+  summarise(Total_Delays = n(), Avg_Delay_Time = mean(`Min_Delay`, na.rm = TRUE))
+
+subway_summary <- subway_data %>%
+  summarise(Total_Delays = n(), Avg_Delay_Time = mean(`Min_Delay`, na.rm = TRUE))
+
+# Combine the summaries into one data frame
+summary_data <- data.frame(
+  Vehicle = c("Bus", "Streetcar", "Subway"),
+  Total_Delays = c(bus_summary$Total_Delays, streetcar_summary$Total_Delays, subway_summary$Total_Delays),
+  Avg_Delay_Time = c(bus_summary$Avg_Delay_Time, streetcar_summary$Avg_Delay_Time, subway_summary$Avg_Delay_Time)
+)
+
+# Plot 1: Total Number of Delays per Vehicle
+ggplot(summary_data, aes(x = Vehicle, y = Total_Delays, fill = Vehicle)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Total Number of Delays per Vehicle", x = "Vehicle", y = "Total Delays") +
+  theme_minimal()
+
+# Plot 2: Average Delay Time per Vehicle
+ggplot(summary_data, aes(x = Vehicle, y = Avg_Delay_Time, fill = Vehicle)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Average Delay Time per Vehicle (in Minutes)", x = "Vehicle", y = "Average Delay Time (Minutes)") +
+  theme_minimal()
+
+```
+Figure 4: Total delay time and average delay time for each type of vehicles
+
+In Figure 4, we observe the trend of total delay time and average delay time for each type of transportation. A closer look at the chart reveals that buses tend to have the highest total delay time and average delay time among all vehicles, with an total delay time of 40,000 minutes and average delay time of approximately 23 minutes which is about 8.8 times longer than the average subway delay time. Eventually, the streetcar has the least total delay time among all the vehicles; however, it has a longer average delay time than the subway.
 
 
 # Discussion
