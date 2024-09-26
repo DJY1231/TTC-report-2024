@@ -76,6 +76,24 @@ The total bus delay dataset contains 40,447 entries, while the subway delay data
 Both datasets went through basic cleaning for readability and irrelevant or unusable columns were removed and not considered in this report.
 Originally, the subway data reported the incident causing the delay as a unique code rather than an understandable description. This description was included instead in a separate table from the same package (Data 2023b). Using merge from dplyr (Wickham et al. 2023), the incident was mapped to a generalized version of the description to match with the same set of generalized descriptions in the bus delay data. This selection into sections based on the description important to note due to the potential subjectivity of the sorting. There are incident descriptions in which the record may fall in one or the other. Please see the data cleaning scripts for more details.
 
+# Data Visualization
+```{r}
+
+```
+
+Figure 1: Distribution of Bus and Streetcar Delay Reasons
+
+Figure 1 illustrates the main reasons for bus and streetcar delays. The primary cause of delays for bus and streetcars are mechanical issues, followed by operational issues, security concerns, diversions, and general delays. Other reasons can be observed in Figure 1, but I will not mention them all as they are not the main causes of delays.
+
+```{r}
+
+```
+
+Figure 2: Distribution of Subway Delay Reasons
+
+Figure 2 illustrates the main reasons for subway delays. The main cause of delays for the subway is patron, injury, incident, and mechanical issues. Other reasons can be observed in Figure 2, but I will not mention them all as they are not the main causes of delays.
+
+
 # Discussion
 
 Relate your analysis to the themes mentioned in Bouie (2022), discussing the importance of remembering and analyzing historical events through data.
