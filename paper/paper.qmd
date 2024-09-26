@@ -21,7 +21,6 @@ library(palmerpenguins)
 
 
 # Introduction
-
 Having operated for over 100 years, the Toronto Transit Commission (TTC) has become one of the most visible and representative public transportation organizations in North America. It is well-known as the primary mode of public transportation in Toronto's daily life. Within the TTC, the bus network typically experiences higher daily ridership compared to streetcars, while subways accommodate the largest volume of passengers due to their central role in covering longer routes. Frequent riders often notice delays that arise on a daily basis. As delays become worse and services becoming increasingly inconsistent, it is important to examine the potential causes, allowing the TTC to identify and implement effective solutions.
 
 This paper will identify the correlations of public transit delays across different types of transportation. The data utilized for analysis, including both records and census data, measurements, is in {#sec-data}. In {#sec-results}, I will talk about the predicted results derived from the data, this includes the result of the differences in delays between buses, streetcars, and subways. Lastly, {#sec-Discussion} contains more detailed results in a broader context and addresses weaknesses of this paper as well as the future explorations. This paper uses the programming language `R`[@citeR] . The analysis, the model and the visualizations use the following packages: `dplyr`[@dplyr],  `tidyverse`[@tidyverse], `ggplot2`[@ggplot], `knitr` [@knitr],  `here` [@here] , and `kableExtra` [@kableExtra],`modelsummary`[@model_summary], and `rstanarm`[@rstanarm].
@@ -31,7 +30,7 @@ This paper will identify the correlations of public transit delays across differ
 The data were gathered from Open Data Toronto's report on TTC delays. The datasets, published by the TTC, include the following: the first dataset presents delay statistics for subways in 2024 from January 1 to August 31; the second dataset details delay statistics for buses in 2024 from January 1 to August 31; and the third dataset provides delay statistics for streetcars in 2024 from January 1 to August 31.
 
 # Data Analysis
-The dataset provides information that offers insights of public transit delays across different types of transportation.
+The dataset provides information that offers insights of public transit delays across different types of transportation. The y-axis represents  The x-axis corresponds ,representing the total income for each year.
 
 Additionally, data cleaning and analysis were conducted using the base statistical programming language R (R Core Team 2023), tidyverse (Wickham et al. 2019), ggplot2 (Wickham 2016), dplyr (Wickham et al. 2023), readr (Wickham, Hester, and Bryan 2023), tibble (Müller and Wickham 2023), janitor (Firke 2023), and knitr (Xie 2023) package were used.
 
@@ -100,14 +99,60 @@ The total bus delay dataset contains 40,447 entries, while the subway delay data
 
 # Data Visualization
 ```{r}
+# Load the required libraries
+library(ggplot2)
+library(dplyr)
+
+# Read the data from both CSV files
+bus_data <- read.csv("ttc_bus_delay_data_2024.csv")
+streetcar_data <- read.csv("ttc_streetcar_delay_data_2024.csv")
+
+# Combine the two data frames into one
+combined_data <- bind_rows(bus_data, streetcar_data)
+
+# Summarize the data by incident type (combining bus and streetcar delays)
+incident_summary <- combined_data %>%
+  group_by(Incident) %>%
+  summarise(Total_Incidents = n()) %>%
+  arrange(desc(Total_Incidents))
+
+# Plot the total incidents for each incident type using ggplot2
+ggplot(incident_summary, aes(x = reorder(Incident, -Total_Incidents), y = Total_Incidents)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  labs(title = "Reasons of Bus and Streetcar Delay", 
+       x = "Incident Type", 
+       y = "Total Incidents") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels for better readability
 
 ```
-
 Figure 1: Distribution of Bus and Streetcar Delay Reasons
 
 Figure 1 illustrates the main reasons for bus and streetcar delays. The primary cause of delays for bus and streetcars are mechanical issues, followed by operational issues, security concerns, diversions, and general delays. Other reasons can be observed in Figure 1, but I will not mention them all as they are not the main causes of delays.
 
 ```{r}
+library(ggplot2)
+library(dplyr)
+
+subway_data <- read.csv("Subway_count_2024.csv")
+
+subway_data_clean <- subway_data %>%
+  filter(!is.na(Delay.Group) & !is.na(Count) & Count > 0)
+
+# Summarize the data by Delay.Group
+delay_group_summary <- subway_data_clean %>%
+  group_by(Delay.Group) %>%
+  summarise(Total_Count = sum(Count)) %>%  # Sum up the Count column for each Delay.Group
+  arrange(desc(Total_Count))  # Arrange by total delays in descending order
+
+# Plot the total incidents for each delay group using ggplot2
+ggplot(delay_group_summary, aes(x = reorder(Delay.Group, -Total_Count), y = Total_Count)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  labs(title = "Total Delays by Delay Group (TTC Subway)", 
+       x = "Delay Group", 
+       y = "Total Delays") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels for better readability
 
 ```
 
@@ -116,9 +161,62 @@ Figure 2: Distribution of Subway Delay Reasons
 Figure 2 illustrates the main reasons for subway delays. The main cause of delays for the subway is patron, injury, incident, and mechanical issues. Other reasons can be observed in Figure 2, but I will not mention them all as they are not the main causes of delays. 
 
 ```{r}
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(lubridate)
 
+# Define file paths (replace with actual paths)
+file1 <- ("ttc_subway_delay_data_2024.csv")
+file2 <- ("ttc_bus_delay_data_2024.csv")
+file3 <- ("ttc_streetcar_delay_data_2024.csv")
+
+data1 <- read.csv(file1)
+data2 <- read.csv(file2)
+data3 <- read.csv(file3)
+
+# Inspect column names and structure
+print(names(data1))
+print(names(data2))
+print(names(data3))
+
+# Assuming the date column might be named 'Date'
+data1$date <- as.Date(data1$Date, format = "%Y-%m-%d")
+data2$date <- as.Date(data2$Date, format = "%Y-%m-%d")
+data3$date <- as.Date(data3$Date, format = "%Y-%m-%d")
+
+# Extract the day of the week for each file and count incidents
+day_counts_file1 <- data1 %>%
+  mutate(day_of_week = wday(date, label = TRUE)) %>%
+  group_by(day_of_week) %>%
+  summarise(total_count = n()) %>%
+  mutate(file = "File 1")
+
+day_counts_file2 <- data2 %>%
+  mutate(day_of_week = wday(date, label = TRUE)) %>%
+  group_by(day_of_week) %>%
+  summarise(total_count = n()) %>%
+  mutate(file = "File 2")
+
+day_counts_file3 <- data3 %>%
+  mutate(day_of_week = wday(date, label = TRUE)) %>%
+  group_by(day_of_week) %>%
+  summarise(total_count = n()) %>%
+  mutate(file = "File 3")
+
+# Combine the results into a single dataframe
+combined_day_counts <- bind_rows(day_counts_file1, day_counts_file2, day_counts_file3)
+
+# Plot the variation of delay incidents by day of the week for each file
+ggplot(combined_day_counts, aes(x = day_of_week, y = total_count, color = file, group = file)) +
+  geom_line() +
+  geom_point() +
+  labs(title = "Variation of Delay Incidents by Day of the Week",
+       x = "Day of the Week",
+       y = "Total Count",
+       color = "File") +
+  theme_minimal()
 ```
-
 Figure 3:The trend of delays based on the day of the week
 
 Figure 3 shows the trend of delays based on the day of the week. We can observe which day experiences the most delays and which day experiences the least. It also provides an overview of the delay trend throughout the week.
