@@ -31,48 +31,72 @@ This paper will identify the correlations of public transit delays across differ
 The data were gathered from Open Data Toronto's report on TTC delays. The datasets, published by the TTC, include the following: the first dataset presents delay statistics for subways in 2024 from January 1 to August 31; the second dataset details delay statistics for buses in 2024 from January 1 to August 31; and the third dataset provides delay statistics for streetcars in 2024 from January 1 to August 31.
 
 # Data Analysis
-The dataset provides information that offers insights of public transit delays across different types of transportation. The y-axis represents  The x-axis corresponds ,representing the total income for each year.
+The dataset provides information that offers insights of public transit delays across different types of transportation.
 
 Additionally, data cleaning and analysis were conducted using the base statistical programming language R (R Core Team 2023), tidyverse (Wickham et al. 2019), ggplot2 (Wickham 2016), dplyr (Wickham et al. 2023), readr (Wickham, Hester, and Bryan 2023), tibble (Müller and Wickham 2023), janitor (Firke 2023), and knitr (Xie 2023) package were used.
 
 # Overview of datasets
 ```{r}
+install.packages("kableExtra")
+
+library(kableExtra)
 library(dplyr)
 library(knitr)
+
 data <- read.csv("ttc_bus_delay_data_2024.csv")
 
 subset_data <- data %>%
   select(Date, Time, Day, Incident, Min.Delay, Min.Gap) %>% 
   head(10)
 
-# Print the data with lines between columns
-kable(subset_data) 
+kable(subset_data, format = "pipe", align = 'l') %>%
+  kable_styling(full_width = F, position = "center")
+
 ```
 Table 1: Sample of bus delay statistics; the first 10 rows of TTC bus delay over time: Jan 1 to Aug 31, 2024.
 
 ```{r}
+library(kableExtra)
 library(dplyr)
 library(knitr)
+
+data <- read.csv("ttc_streetcar_delay_data_2024.csv")
+
+subset_data <- data %>%
+  select(Date, Time, Day, Incident, Min.Delay, Min.Gap) %>% 
+  head(10)
+
+kable(subset_data, format = "pipe", align = 'l') %>%
+  kable_styling(full_width = F, position = "center")
+
+```
+Table 2: Sample of streetcar delay statistics; the first 10 rows of TTC subway delay over time: Jan 1 to Aug 31, 2024.
+
+```{r}
+library(kableExtra)
+library(dplyr)
+library(knitr)
+
 data <- read.csv("ttc_subway_delay_data_2024.csv")
 
 subset_data <- data %>%
   select(Date, Time, Day, Code, Min.Delay, Min.Gap) %>% 
   head(10)
 
-# Print the data with lines between columns
-kable(subset_data) 
+kable(subset_data, format = "pipe", align = 'l') %>%
+  kable_styling(full_width = F, position = "center")
 ```
-Table 2: Sample of subway delay statistics; the first 10 rows of TTC subway delay over time: Jan 1 to Aug 31, 2024.
+Table 3: Sample of subway delay statistics; the first 10 rows of TTC subway delay over time: Jan 1 to Aug 31, 2024.
 
-Both Table 1 and Table 2 include:
+Table 1, Table 2, Table 3 include:
 
 1. Date: The dataset shows the date when the delay occurred.
 2. Time: The dataset contains information on the time the delay occurred.
 3. Day: The dataset indicates the day of the week when the delay occurred.
-4. Incident: The dataset displays the reason for the delay, such as a general delay, emergency services, or security issues.
+4. Incident: The dataset displays the reason for the delay, such as a general delay, emergency services, or security issues. Incident is displayed in code for Table 3.
 5. Min.Delay and Min.Gap: The dataset likely represents 'Min Delay' and 'Min Gap,' both measured in minutes. 'Min Delay' refers to the delay in the schedule for the next bus, while 'Min Gap' indicates the scheduled time, between the bus ahead and the following bus.
 
-The total bus delay dataset contains 40,447 entries, while the subway delay dataset contains 17,517 entries. We can indicate that delays in the bus has occurred approximately 2.35 times more than the subway delay. 
+The total bus delay dataset contains 40,447 entries, while the subway delay dataset contains 17,517 entries, and streetcar delay dataset contains 9,932 entries. We can indicate that delays in the bus has occurred approximately 2.35 times more than the subway delay and 4.07 times more than the streetcar delay. 
 
 # Data Visualization
 ```{r}
@@ -250,5 +274,6 @@ plot(first_model, "rhat")
 # References
 R Core Team. 2023. R: A Language and Environment for Statistical Computing. Vienna,
 Austria: R Foundation for Statistical Computing. https://www.R-project.org/.
+
 
 
