@@ -162,66 +162,67 @@ Figure 2 illustrates the main reasons for subway delays. The main cause of delay
 
 ```{r}
 # Load necessary libraries
-library(dplyr)
 library(ggplot2)
-library(lubridate)
+library(dplyr)
 
-# Define file paths (replace with actual paths)
-file1 <- ("ttc_subway_delay_data_2024.csv")
-file2 <- ("ttc_bus_delay_data_2024.csv")
-file3 <- ("ttc_streetcar_delay_data_2024.csv")
+# Load datasets (replace with actual file paths)
+bus_data <- read.csv('ttc_bus_delay_data_2024.csv')
+streetcar_data <- read.csv('ttc_streetcar_delay_data_2024.csv')
+subway_data <- read.csv('ttc_subway_delay_data_2024.csv')
 
-data1 <- read.csv(file1)
-data2 <- read.csv(file2)
-data3 <- read.csv(file3)
+# Create a mapping of full day names to their abbreviations
+day_abbreviations <- c("Monday" = "Mon", "Tuesday" = "Tue", "Wednesday" = "Wed", 
+                       "Thursday" = "Thu", "Friday" = "Fri", "Saturday" = "Sat", 
+                       "Sunday" = "Sun")
 
-# Inspect column names and structure
-print(names(data1))
-print(names(data2))
-print(names(data3))
+# Function to abbreviate day names
+abbreviate_day <- function(day) {
+  return(day_abbreviations[day])
+}
 
-# Assuming the date column might be named 'Date'
-data1$date <- as.Date(data1$Date, format = "%Y-%m-%d")
-data2$date <- as.Date(data2$Date, format = "%Y-%m-%d")
-data3$date <- as.Date(data3$Date, format = "%Y-%m-%d")
+# Group and filter data for each vehicle type, then abbreviate day names
+bus_delays_by_day <- bus_data %>%
+  filter(Day %in% names(day_abbreviations)) %>%
+  group_by(Day) %>%
+  summarise(Count = n()) %>%
+  mutate(Day = abbreviate_day(Day))
 
-# Extract the day of the week for each file and count incidents
-day_counts_file1 <- data1 %>%
-  mutate(day_of_week = wday(date, label = TRUE)) %>%
-  group_by(day_of_week) %>%
-  summarise(total_count = n()) %>%
-  mutate(file = "File 1")
+streetcar_delays_by_day <- streetcar_data %>%
+  filter(Day %in% names(day_abbreviations)) %>%
+  group_by(Day) %>%
+  summarise(Count = n()) %>%
+  mutate(Day = abbreviate_day(Day))
 
-day_counts_file2 <- data2 %>%
-  mutate(day_of_week = wday(date, label = TRUE)) %>%
-  group_by(day_of_week) %>%
-  summarise(total_count = n()) %>%
-  mutate(file = "File 2")
+subway_delays_by_day <- subway_data %>%
+  filter(Day %in% names(day_abbreviations)) %>%
+  group_by(Day) %>%
+  summarise(Count = n()) %>%
+  mutate(Day = abbreviate_day(Day))
 
-day_counts_file3 <- data3 %>%
-  mutate(day_of_week = wday(date, label = TRUE)) %>%
-  group_by(day_of_week) %>%
-  summarise(total_count = n()) %>%
-  mutate(file = "File 3")
+# Combine the data
+bus_delays_by_day$vehicle <- "Bus"
+streetcar_delays_by_day$vehicle <- "Streetcar"
+subway_delays_by_day$vehicle <- "Subway"
 
-# Combine the results into a single dataframe
-combined_day_counts <- bind_rows(day_counts_file1, day_counts_file2, day_counts_file3)
+combined_data <- rbind(bus_delays_by_day, streetcar_delays_by_day, subway_delays_by_day)
 
-# Plot the variation of delay incidents by day of the week for each file
-ggplot(combined_day_counts, aes(x = day_of_week, y = total_count, color = file, group = file)) +
-  geom_line() +
+# Create the plot with abbreviated day labels
+ggplot(combined_data, aes(x = Day, y = Count, color = vehicle, group = vehicle)) +
+  geom_line(size = 1) +
   geom_point() +
-  labs(title = "Variation of Delay Incidents by Day of the Week",
+  labs(title = "Number of delays caused in day, by Vehicle",
        x = "Day of the Week",
-       y = "Total Count",
-       color = "File") +
-  theme_minimal()
+       y = "Count of Delays",
+       color = "Vehicle") +
+  theme_minimal() +
+  scale_x_discrete(limits = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
 ```
 Figure 3:The trend of delays based on the day of the week
 
 Figure 3 shows the trend of delays based on the day of the week. We can observe which day experiences the most delays and which day experiences the least. It also provides an overview of the delay trend throughout the week.
 
 This information offers valuable insight for the TTC to prepare alternative solutions for delays. For instance, they could deploy more buses or trains on days with higher delays compared to days with fewer delays.
+
 
 # Discussion
 
