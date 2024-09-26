@@ -93,6 +93,13 @@ Figure 2: Distribution of Subway Delay Reasons
 
 Figure 2 illustrates the main reasons for subway delays. The main cause of delays for the subway is patron, injury, incident, and mechanical issues. Other reasons can be observed in Figure 2, but I will not mention them all as they are not the main causes of delays.
 
+```{r}
+
+```
+
+Figure 3:The trend of delays based on the day of the week
+
+Figure 3 shows the trend of delays based on the day of the week. We can observe which day experiences the most delays and which day experiences the least. It also provides an overview of the delay trend throughout the week
 
 # Discussion
 
