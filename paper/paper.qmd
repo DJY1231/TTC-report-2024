@@ -74,9 +74,6 @@ Both Table 1 and Table 2 include:
 
 The total bus delay dataset contains 40,447 entries, while the subway delay dataset contains 17,517 entries. We can indicate that delays in the bus has occurred approximately 2.35 times more than the subway delay. 
 
-Both datasets went through basic cleaning for readability and irrelevant or unusable columns were removed and not considered in this report.
-Originally, the subway data reported the incident causing the delay as a unique code rather than an understandable description. This description was included instead in a separate table from the same package (Data 2023b). Using merge from dplyr (Wickham et al. 2023), the incident was mapped to a generalized version of the description to match with the same set of generalized descriptions in the bus delay data. This selection into sections based on the description important to note due to the potential subjectivity of the sorting. There are incident descriptions in which the record may fall in one or the other. Please see the data cleaning scripts for more details.
-
 # Data Visualization
 ```{r}
 
