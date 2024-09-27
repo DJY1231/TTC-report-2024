@@ -8,6 +8,10 @@
 #### Workspace setup ####
 library(tidyverse)
 library(rstanarm)
+library(kableExtra)
+library(dplyr)
+library(knitr)
+library(ggplot2)
 
 #### Read data ####
 analysis_data <- read_csv("data/analysis_data/analysis_data.csv")
