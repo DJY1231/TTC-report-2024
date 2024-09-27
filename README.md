@@ -19,6 +19,3 @@ The repo is structured as:
 ## Statement on LLM usage
 
 Aspects of the code were written with the help of the autocomplete tool, Chat-GPT4o. The entire chat history is available at other/llms/usage.txt.
-
-## Some checks
-- [ ] Update comments in R scripts
