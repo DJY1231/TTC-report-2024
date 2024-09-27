@@ -7,7 +7,10 @@
 
 #### Workspace setup ####
 library(tidyverse)
-
+library(kableExtra)
+library(dplyr)
+library(knitr)
+library(ggplot2)
 
 #### Load data ####
 
