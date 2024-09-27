@@ -2,8 +2,7 @@
 
 ## Overview
 
-This paper analyzes TTC delay patterns and the cause of its delay. It finds buses experience the most delays, especially on certain routes, while subways have frequent undocumented delays. Mechanical issues, operations, and diversions are most common delay causes. The analysis indicates the need to reduce bus delays through more vehicles or tactics like bus bridging on certain routes.
-
+"This paper provides analyzes of TTC delay data to understand the causes of delays. It illustrates uncover patterns in transit delays, comparing delay causes, trends over time, and variations across different vehicle types. Buses tend to experience delays more frequently than subways or streetcars, occurring approximately 2.35 times more often than subway delays and 4.07 times more than streetcar delays. It suggests that the bus system is less reliable compared to other modes of transportation, likely due to factors such as traffic conditions, mechanical issues, and operational difficulties."
 
 ## File Structure
 
